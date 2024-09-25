@@ -1,0 +1,25 @@
+--- 
+# train setting
+batch_size: 32
+device: cuda:0
+epoch_n: 100
+lr: 0.0002
+loss_function: Auto
+num_workers: 0
+optimizer: Adam
+# model settging
+model : MIRT
+# project setting
+logging_level : INFO
+is_print : True
+dataset : ASSIST
+train_set: train/train_set_1.json
+test_set: test/test_set_1.json
+ASSIST :
+  student_num: 4163
+  exercise_num: 17746
+  knowledge_num: 123
+Junyi :
+  student_num: 10000
+  exercise_num: 835
+  knowledge_num: 835

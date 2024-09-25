@@ -1,0 +1,8 @@
+__pycache__/
+checkpoint/*
+logs/*
+data/*
+!data/download_and_process_data.py
+!data/k_fold_divide.py
+!data/unrar.exe
+!.gitkeep  
