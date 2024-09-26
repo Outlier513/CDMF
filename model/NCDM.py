@@ -28,8 +28,8 @@ class NeuralCDM(nn.Module):
         """
         super(NeuralCDM, self).__init__()
         self.stu_emb = nn.Embedding(student_num, knowledge_num)
-        self.k_difficulty = nn.Embedding(exercise_num, knowledge_num)
-        self.e_discrimination = nn.Embedding(exercise_num, 1)
+        self.k_diff = nn.Embedding(exercise_num, knowledge_num)
+        self.e_disc = nn.Embedding(exercise_num, 1)
         self.fc_1 = PosLinear(knowledge_num, hid_dim1)
         self.drop_1 = nn.Dropout(p)
         self.fc_2 = PosLinear(hid_dim1, hid_dim2)
@@ -52,11 +52,11 @@ class NeuralCDM(nn.Module):
         """
         stu_emb = self.stu_emb(stu_id)
         stu_emb = torch.sigmoid(stu_emb)
-        k_difficulty = self.k_difficulty(exer_id)
-        k_difficulty = torch.sigmoid(k_difficulty)
-        e_discrimination = self.e_discrimination(exer_id)
-        e_discrimination = torch.sigmoid(e_discrimination)
-        input_x = e_discrimination * (stu_emb - k_difficulty) * kn_emb
+        k_diff = self.k_diff(exer_id)
+        k_diff = torch.sigmoid(k_diff)
+        e_disc = self.e_disc(exer_id)
+        e_disc = torch.sigmoid(e_disc)
+        input_x = e_disc * (stu_emb - k_diff) * kn_emb
         input_x = self.fc_1(input_x)
         input_x = torch.sigmoid_(input_x)
         input_x = self.drop_1(input_x)
@@ -82,8 +82,8 @@ class NeuralCDM(nn.Module):
 
         :param int exer_id: exercise id
         """
-        k_difficulty = self.k_difficulty(exer_id)
-        k_difficulty = torch.sigmoid_(k_difficulty)
-        e_discrimination = self.e_discrimination(exer_id)
-        e_discrimination = torch.sigmoid_(e_discrimination) * 10
-        return k_difficulty.data, e_discrimination.data
+        k_diff = self.k_diff(exer_id)
+        k_diff = torch.sigmoid_(k_diff)
+        e_disc = self.e_disc(exer_id)
+        e_disc = torch.sigmoid_(e_disc)
+        return k_diff.data, e_disc.data
